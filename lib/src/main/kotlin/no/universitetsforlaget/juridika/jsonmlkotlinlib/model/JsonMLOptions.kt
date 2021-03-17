@@ -13,4 +13,3 @@ data class JsonMLOptions(
      */
     val elementFilter: (element: Element) -> Boolean = { true }
 )
-
