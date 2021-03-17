@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonmlutilslib.exception
+package no.universitetsforlaget.juridika.jsonmlkotlinlib.exception
 
 
 import org.springframework.http.HttpStatus

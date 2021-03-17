@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonmlutilslib.model
+package no.universitetsforlaget.juridika.jsonmlkotlinlib.model
 
 import com.fasterxml.jackson.annotation.JsonValue
 import net.minidev.json.JSONArray
