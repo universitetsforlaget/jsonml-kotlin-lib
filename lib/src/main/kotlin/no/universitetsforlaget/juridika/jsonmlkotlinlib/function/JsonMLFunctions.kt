@@ -85,7 +85,7 @@ fun convertBitsJsonMLToDomDocument(node: JsonML): Document {
 
     val structuredElement = when (node) {
         is JsonML.Element -> node.structured()
-        else -> throw ServerError("Unable to convert hast to XML: No root element")
+        else -> throw InternalError("Unable to convert hast to XML: No root element")
     }
 
     val documentTagName = when (structuredElement.tagName) {

@@ -3,13 +3,25 @@ plugins {
     `java-library`
     `maven-publish`
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    kotlin("jvm") version "1.4.20"
+    id("org.jetbrains.kotlin.jvm") version "1.4.20"
 }
 
 group = "no.universitetsforlaget.juridika.libraries"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
+    maven {
+        url = uri("https://nexus.knowit.no/nexus/repository/juridika-releases/")
+        credentials {
+            username = project.property("juridikaNexusUser") as String
+            password = project.property("juridikaNexusPassword") as String
+        }
+    }
+    maven("https://dl.bintray.com/kyonifer/maven") {
+        content {
+            includeGroup("com.kyonifer")
+        }
+    }
     jcenter()
     mavenCentral()
 }
@@ -17,7 +29,7 @@ repositories {
 publishing {
     publications {
         create<MavenPublication>("default") {
-            artifactId = "json"
+            artifactId = "jsonml-kotlin-lib"
 
             from(components["java"])
         }
@@ -39,9 +51,6 @@ publishing {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.3.61"))
-    implementation(kotlin("reflect", "1.3.61"))
-    implementation(kotlin("stdlib-jdk8"))
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
@@ -50,6 +59,8 @@ dependencies {
 
     //
     implementation("no.universitetsforlaget.juridika.libraries:textbook-processor:2.0.3")
+    // Need in order to use textbook-processor
+    implementation("com.kyonifer:koma-core-ejml:0.12")
 
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
