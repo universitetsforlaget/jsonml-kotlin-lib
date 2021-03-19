@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonmlkotlinlib.model
+package no.universitetsforlaget.juridika.jsonml.library.jsonml
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.minidev.json.JSONArray

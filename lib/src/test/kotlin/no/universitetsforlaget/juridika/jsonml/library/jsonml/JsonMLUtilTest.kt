@@ -1,7 +1,5 @@
-package no.universitetsforlaget.juridika.jsonmlkotlinlib.function
+package no.universitetsforlaget.juridika.jsonml.library.jsonml
 
-import no.universitetsforlaget.juridika.jsonmlkotlinlib.model.JsonML
-import no.universitetsforlaget.juridika.jsonmlkotlinlib.model.JsonMLOptions
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
@@ -9,7 +7,7 @@ import org.w3c.dom.Document
 import java.io.ByteArrayInputStream
 import javax.xml.parsers.DocumentBuilderFactory
 
-class JsonMLFunctionsTest {
+class JsonMLUtilTest {
     @Test
     fun `should convert BITS to JsonML`() {
         val xml = """
