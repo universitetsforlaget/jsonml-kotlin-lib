@@ -29,7 +29,7 @@ repositories {
 publishing {
     publications {
         create<MavenPublication>("default") {
-            artifactId = "jsonml-kotlin-lib"
+            artifactId = "jsonml"
 
             from(components["java"])
         }
