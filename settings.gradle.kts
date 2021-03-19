@@ -8,4 +8,3 @@
  */
 
 rootProject.name = "jsonml-kotlin-lib"
-include("lib")

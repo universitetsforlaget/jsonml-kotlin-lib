@@ -1,9 +1,6 @@
-package no.universitetsforlaget.juridika.jsonmlkotlinlib.function
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 import net.minidev.json.JSONObject
-import no.universitetsforlaget.juridika.jsonmlkotlinlib.model.JsonML
-import no.universitetsforlaget.juridika.jsonmlkotlinlib.model.JsonMLOptions
-import no.universitetsforlaget.juridika.jsonmlkotlinlib.model.StructuredJsonMLElement
 import no.universitetsforlaget.juridika.textbookprocessor.bits.model.BitsNamespace
 import org.w3c.dom.Attr
 import org.w3c.dom.Document

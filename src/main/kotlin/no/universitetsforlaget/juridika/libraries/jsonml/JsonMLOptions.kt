@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonmlkotlinlib.model
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 
 import org.w3c.dom.Element
@@ -13,4 +13,3 @@ data class JsonMLOptions(
      */
     val elementFilter: (element: Element) -> Boolean = { true }
 )
-

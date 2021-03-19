@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonmlkotlinlib.model
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.minidev.json.JSONArray
@@ -55,7 +55,8 @@ class JsonMLTest {
 
     @Test
     fun `should (de)serialize special unicode characters, etc`() {
-        val input = JsonML.createElement(tagName = "foo", children = listOf(JsonML.Text("\tlolæ\n")))
+        val input =
+            JsonML.createElement(tagName = "foo", children = listOf(JsonML.Text("\tlolæ\n")))
         val json = objectMapper.writeValueAsString(input)
 
         MatcherAssert.assertThat(json, CoreMatchers.equalTo("""["foo","\tlolæ\n"]"""))
