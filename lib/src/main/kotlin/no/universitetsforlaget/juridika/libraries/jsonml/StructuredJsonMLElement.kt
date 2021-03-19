@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonml.library.jsonml
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 data class StructuredJsonMLElement(
     val tagName: String,

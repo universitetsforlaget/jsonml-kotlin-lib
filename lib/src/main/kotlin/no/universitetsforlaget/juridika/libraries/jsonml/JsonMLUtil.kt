@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonml.library.jsonml
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 import net.minidev.json.JSONObject
 import no.universitetsforlaget.juridika.textbookprocessor.bits.model.BitsNamespace

@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonml.library.jsonml
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 import com.fasterxml.jackson.annotation.JsonValue
 import net.minidev.json.JSONArray

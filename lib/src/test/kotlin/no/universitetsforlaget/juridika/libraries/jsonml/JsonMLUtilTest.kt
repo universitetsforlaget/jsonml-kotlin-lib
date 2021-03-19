@@ -1,4 +1,4 @@
-package no.universitetsforlaget.juridika.jsonml.library.jsonml
+package no.universitetsforlaget.juridika.libraries.jsonml
 
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -79,7 +79,8 @@ class JsonMLUtilTest {
                 JsonML.createElement(
                     tagName = "lol",
                     children = listOf(JsonML.Text(" A  B C "))
-                ))
+                )
+            )
         )
     }
 
