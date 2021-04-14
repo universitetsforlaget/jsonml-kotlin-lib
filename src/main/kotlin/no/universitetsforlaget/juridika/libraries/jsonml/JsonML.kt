@@ -26,7 +26,10 @@ sealed class JsonML {
         override val jsonValue = jsonArray
 
         fun structured(): StructuredJsonMLElement {
-            val tagName = jsonArray[0] as String
+            val tagName = jsonArray[0]
+            if (tagName !is String) {
+                throw Exception("expected tagName to be a String")
+            }
             var childStartIndex = 1
 
             val attributes: Map<String, Any>? = if (jsonArray.size > 1 && jsonArray[1] is Map<*, *>) {

@@ -2,7 +2,9 @@ package no.universitetsforlaget.juridika.libraries.jsonml
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class JsonMLTest {
@@ -79,21 +81,33 @@ class JsonMLTest {
             {
                 "jsonml": [
                     "book",
-                    {"attribute": "value"}
+                    {"attribute": "value"},
+                    "child"
                 ]
             }
         """
 
         val testObject = objectMapper.readValue(json, TestObject::class.java)
 
-        MatcherAssert.assertThat(
+        assertThat(
             testObject,
-            CoreMatchers.equalTo(
+            equalTo(
                 TestObject(JsonML.createElement(
                     tagName = "book",
-                    attributes = mapOf("attribute" to "value")
+                    attributes = mapOf("attribute" to "value"),
+                    children = listOf(JsonML.Text("child"))
                 ).jsonValue as List<Any>))
         )
+
+        val node = JsonML.fromRaw(testObject.jsonml)
+        val structured = when (node) {
+            is JsonML.Element -> node.structured()
+            else -> throw Exception("Expected a node")
+        }
+
+        assertThat(structured.tagName, equalTo("book"))
+        assertThat(structured.attributes, equalTo(mapOf("attribute" to "value")))
+        assertThat(structured.children[0], equalTo(JsonML.Text("child")))
     }
 
     data class TestObject(
