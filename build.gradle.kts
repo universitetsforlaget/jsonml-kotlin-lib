@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "no.universitetsforlaget.juridika.libraries"
-version = "1.0.4-SNAPSHOT"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
