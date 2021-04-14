@@ -54,9 +54,6 @@ dependencies {
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
-    // https://mvnrepository.com/artifact/net.minidev/json-smart
-    implementation("net.minidev", "json-smart", "2.3")
-
     //
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 

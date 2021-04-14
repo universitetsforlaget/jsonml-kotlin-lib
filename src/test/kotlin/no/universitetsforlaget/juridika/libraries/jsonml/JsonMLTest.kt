@@ -1,26 +1,14 @@
 package no.universitetsforlaget.juridika.libraries.jsonml
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import net.minidev.json.JSONArray
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class JsonMLTest {
     private val objectMapper = ObjectMapper().findAndRegisterModules()
-
-    @Test
-    fun `minidev JSONArray supports equal-comparison`() {
-        val input = JsonML.createElement("foo")
-        val expected = JsonML.createElement("foo")
-
-        val notExpected = JsonML.createElement("baz")
-
-        MatcherAssert.assertThat(input.jsonValue, CoreMatchers.equalTo(expected.jsonValue))
-        MatcherAssert.assertThat(input.jsonValue, CoreMatchers.not(CoreMatchers.equalTo(notExpected.jsonValue)))
-
-        MatcherAssert.assertThat(objectMapper.writeValueAsString(input), CoreMatchers.equalTo("""["foo"]"""))
-    }
 
     @Test
     fun `serializes full element`() {
@@ -62,7 +50,7 @@ class JsonMLTest {
         MatcherAssert.assertThat(json, CoreMatchers.equalTo("""["foo","\tlolæ\n"]"""))
 
         MatcherAssert.assertThat(
-            JsonML.fromRaw(objectMapper.readValue(json, JSONArray::class.java)),
+            JsonML.fromRaw(objectMapper.readValue(json, List::class.java)),
             CoreMatchers.equalTo(input)
         )
     }
@@ -82,7 +70,7 @@ class JsonMLTest {
         MatcherAssert.assertThat(json, CoreMatchers.equalTo("""["foo","abc"]"""))
 
         MatcherAssert.assertThat(
-            JsonML.fromRaw(objectMapper.readValue(json, JSONArray::class.java)),
+            JsonML.fromRaw(objectMapper.readValue(json, List::class.java)),
             CoreMatchers.equalTo(input)
         )
     }
@@ -92,20 +80,37 @@ class JsonMLTest {
         val json = """
             {
                 "jsonml": [
-                    "book"
+                    "book",
+                    {"attribute": "value"},
+                    "child"
                 ]
             }
         """
 
         val testObject = objectMapper.readValue(json, TestObject::class.java)
 
-        MatcherAssert.assertThat(
+        assertThat(
             testObject,
-            CoreMatchers.equalTo(TestObject(JsonML.createElement("book").jsonValue as JSONArray))
+            equalTo(
+                TestObject(JsonML.createElement(
+                    tagName = "book",
+                    attributes = mapOf("attribute" to "value"),
+                    children = listOf(JsonML.Text("child"))
+                ).jsonValue as List<Any>))
         )
+
+        val node = JsonML.fromRaw(testObject.jsonml)
+        val structured = when (node) {
+            is JsonML.Element -> node.structured()
+            else -> throw Exception("Expected a node")
+        }
+
+        assertThat(structured.tagName, equalTo("book"))
+        assertThat(structured.attributes, equalTo(mapOf("attribute" to "value")))
+        assertThat(structured.children[0], equalTo(JsonML.Text("child")))
     }
 
     data class TestObject(
-        val jsonml: JSONArray
+        val jsonml: List<Any>
     )
 }

@@ -1,6 +1,5 @@
 package no.universitetsforlaget.juridika.libraries.jsonml
 
-import net.minidev.json.JSONObject
 import no.universitetsforlaget.juridika.textbookprocessor.bits.model.BitsNamespace
 import org.w3c.dom.Attr
 import org.w3c.dom.Document
@@ -57,20 +56,20 @@ fun convertDomElementToJsonML(element: Element, options: JsonMLOptions): JsonML 
     }
 
     val domAttributes = element.attributes
-    val jsonAttributes: JSONObject? = if (domAttributes.length > 0) {
-        val jsonAttributes = JSONObject()
+    val attributes: Map<String, Any>? = if (domAttributes.length > 0) {
+        val attributes = mutableMapOf<String, Any>()
         for (index in 0 until domAttributes.length) {
             val item = domAttributes.item(index)
             if (item !is Attr) continue
 
-            jsonAttributes.appendField(item.name, item.value)
+            attributes[item.name] = item.value
         }
-        jsonAttributes
+        attributes
     } else null
 
     return JsonML.createElement(
         tagName = element.tagName,
-        jsonAttributes = jsonAttributes,
+        attributes = attributes,
         children = if (children.isEmpty()) null else children
     )
 }
@@ -121,7 +120,10 @@ fun convertJsonMLToDom(node: JsonML, document: Document): Node? {
 private fun populateDomElement(structuredElement: StructuredJsonMLElement, domElement: Element, document: Document) {
     if (structuredElement.attributes != null) {
         for (entry in structuredElement.attributes) {
-            domElement.setAttribute(entry.key, entry.value)
+            val value = entry.value
+            if (value is String) {
+                domElement.setAttribute(entry.key, value)
+            }
         }
     }
 
