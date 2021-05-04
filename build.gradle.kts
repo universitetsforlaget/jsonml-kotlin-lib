@@ -18,12 +18,6 @@ repositories {
             password = project.property("juridikaNexusPassword") as String
         }
     }
-
-    maven("https://dl.bintray.com/kyonifer/maven") {
-        content {
-            includeGroup("com.kyonifer")
-        }
-    }
 }
 
 publishing {
