@@ -1,6 +1,5 @@
 package no.universitetsforlaget.juridika.libraries.jsonml
 
-import no.universitetsforlaget.juridika.textbookprocessor.bits.model.BitsNamespace
 import org.w3c.dom.Attr
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -74,7 +73,14 @@ fun convertDomElementToJsonML(element: Element, options: JsonMLOptions): JsonML 
     )
 }
 
-fun convertBitsJsonMLToDomDocument(node: JsonML): Document {
+/**
+ * convert a JsonML node to a org.w3c.dom Document.
+ * @param documentNamespaces a map of qualified namespace name to namespace URL.
+ */
+fun convertBitsJsonMLToDomDocument(
+    node: JsonML,
+    documentNamespaces: Map<String, String>
+): Document {
     val factory = DocumentBuilderFactory.newInstance()
     factory.isNamespaceAware = true
     val implementation = factory.newDocumentBuilder().domImplementation
@@ -92,11 +98,11 @@ fun convertBitsJsonMLToDomDocument(node: JsonML): Document {
     val document = implementation.createDocument("", documentTagName, null)
     val documentElement = document.documentElement
 
-    for (namespace in BitsNamespace.values()) {
+    for ((qualifiedName, url) in documentNamespaces) {
         documentElement.setAttributeNS(
             "http://www.w3.org/2000/xmlns/",
-            "xmlns:${namespace.qualifiedName}",
-            namespace.url
+            "xmlns:${qualifiedName}",
+            url
         )
     }
 
