@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "no.universitetsforlaget.juridika.libraries"
-version = "1.0.6-SNAPSHOT"
+version = "1.0.6"
 
 val juridikaGitlabRepo: (RepositoryHandler) -> MavenArtifactRepository = {
     it.maven {
