@@ -8,41 +8,37 @@ plugins {
 group = "no.universitetsforlaget.juridika.libraries"
 version = "1.0.6-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-    jcenter()
-    maven {
-        url = uri("https://nexus.knowit.no/nexus/repository/juridika-releases/")
-        credentials {
-            username = project.property("juridikaNexusUser") as String
-            password = project.property("juridikaNexusPassword") as String
+val juridikaGitlabRepo: (RepositoryHandler) -> MavenArtifactRepository = {
+    it.maven {
+        val juridikaGitlabTokenType: String? by project
+        val juridikaGitLabToken: String by project
+
+        url = uri("https://gitlab.com/api/v4/projects/33843272/packages/maven")
+        credentials(HttpHeaderCredentials::class) {
+            name = juridikaGitlabTokenType ?: "Private-Token"
+            value = juridikaGitLabToken // personal gitlab access token, store this in ~/.gradle/gradle.properties
+        }
+        authentication {
+            create<HttpHeaderAuthentication>("header")
         }
     }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
 publishing {
     publications {
-        create<MavenPublication>("default") {
+        create<MavenPublication>("mavenJava") {
             artifactId = "jsonml"
-
             from(components["java"])
         }
     }
-
-    repositories {
-        maven {
-            val releasesRepoUrl = "https://nexus.knowit.no/nexus/repository/juridika-releases/"
-            val snapshotsRepoUrl = "https://nexus.knowit.no/nexus/repository/juridika-snapshots/"
-
-            url = uri(if (project.version.toString().contains("-SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-
-            credentials {
-                username = project.property("juridikaNexusUser") as String
-                password = project.property("juridikaNexusPassword") as String
-            }
-        }
-    }
+    repositories { juridikaGitlabRepo(this) }
 }
+
 
 dependencies {
     // Align versions of all Kotlin components
